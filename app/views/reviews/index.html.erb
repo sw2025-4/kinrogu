@@ -1,0 +1,13 @@
+<%= link_to '新規追加', 'reviews/new',style: "background-color: #007bff; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;" %></p>
+<% @reviews.each do |r| %>
+  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+
+      <% r.star.to_i.times do %>
+        ★
+      <% end %><br>
+      お店名: <%= r.storename %><br>
+      コメント: <%= r.comment %><br>
+      ジャンル: <%= r.category %>
+    </p>
+  </div>
+<% end %>

@@ -1,0 +1,50 @@
+
+<html lang="ja">
+<body>
+<div class="test-container">
+<h2>外食レビュー投稿（大学生向け）</h2>
+<form action="/reviews" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <p>
+    <label for="storename">お店の名前</label>：
+    <input type="text" name="review[storename]" id="storename" />
+  </p>
+  <p>
+    <label for="location">住所</label>：
+    <input type="text" name="review[location]" id="location" />
+  </p>
+  <p>
+    <label for="comment">コメント</label><br>
+    <textarea id="comment" name="review[comment]" rows="5" cols="40" placeholder="大学生向けのおすすめポイントや感想を書いてください(コスパや量など)" required></textarea>
+  </p>
+   <p>
+    <label for="category">カテゴリー</label>：
+    <select name="review[category]" id="category" required>
+      <option value="">選択してください</option>
+      <option value="カフェ">カフェ</option>
+      <option value="居酒屋">居酒屋</option>
+      <option value="ラーメン">ラーメン</option>
+      <option value="ファストフード">ファストフード</option>
+      <option value="その他">その他</option>
+    </select>
+  </p>
+  <label for="star">5段階評価</label>:
+   <select name="review[star]" id="star" required>
+    <option value="">選択してください</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </label>
+
+<br></br>
+   <p>
+    <input type="submit" value="登録" 
+           style="background-color: #007bff; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;" />
+  </p>
+</form>
+</div>
+
+</body>
+</html>

@@ -8,3 +8,55 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+/* app/assets/stylesheets/application.css */
+
+/* レイアウト全体 */
+#container {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar content"
+    "footer footer";
+  grid-template-columns: 200px 1fr;
+  min-height: 100vh;
+}
+
+/* 各ブロック */
+#header {
+  grid-area: header;
+  background-color: #65BBE9;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+#sidebar {
+  grid-area: sidebar;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+#content {
+  grid-area: content;
+  padding: 20px;
+  background-color: #fff;
+}
+
+#footer {
+  grid-area: footer;
+  background-color: #65BBE9;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: auto;
+}

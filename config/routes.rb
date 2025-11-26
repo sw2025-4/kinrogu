@@ -4,10 +4,15 @@ Rails.application.routes.draw do
   get "top/logout"
   
   resources :users
-  root "users#index"
+#  root "users#index"
+
+
+  get "reviews/index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  get 'reviews/new', to: 'reviews#new'
+  root "reviews#index"
+  post 'reviews', to: 'reviews#create'
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
