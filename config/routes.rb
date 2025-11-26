@@ -16,14 +16,14 @@ Rails.application.routes.draw do
   get 'top/logout', to: 'top#logout'
 
   # トップページをログイン画面にする場合
-  root "top#main" 
+  #root "top#main" 
   
   # ※ 既存の restaurants などの設定はそのまま残してくださ
   #resources :restaurants
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get 'reviews/new', to: 'reviews#new'
-  #root "reviews#index"
+  root "reviews#index"
   post 'reviews', to: 'reviews#create'
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
