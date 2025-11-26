@@ -4,10 +4,7 @@ Rails.application.routes.draw do
   get "top/logout"
   
   resources :users
- #root "users#index"
-
-
-  get "reviews/index"
+  #root "users#index"
 
   get "reviews/index"
   # ユーザー登録 (UsersController)
