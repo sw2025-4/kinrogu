@@ -27,7 +27,7 @@ class TopController < ApplicationController
     # ユーザーが存在し、かつパスワードが一致する場合 (authenticateメソッド)
     if user && user.authenticate(params[:pass])
       session[:login_uid] = params[:uid] # セッションにUIDを保存
-      redirect_to root_path, notice: 'ログインしました' # ログイン後は飲食店一覧へ
+      redirect_to reviews_index_path, notice: 'ログインしました' # ログイン後は飲食店一覧へ
     else
       flash.now[:alert] = 'UIDまたはパスワードが間違っています'
       render "login_form", status: :unprocessable_entity
