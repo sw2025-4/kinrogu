@@ -1,10 +1,20 @@
 
 <html lang="ja">
+<head>
+  <style>
+   .form-wrapper {
+    display: flex;
+    gap: 70px;
+   }
+  </style>
+  </head>
 <body>
-<div class="test-container">
+
 <h2>外食レビュー投稿（大学生向け）</h2>
 <form action="/reviews" method="post" enctype="multipart/form-data">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <div class="form-wrapper">
+<div class="test-container">
   <p>
     <label for="storename">お店の名前</label>：
     <input type="text" name="review[storename]" id="storename" />
@@ -40,15 +50,27 @@
       <option value="3">3</option>
       <option value="4">4</option>
       <option value="5">5</option>
-    </label>
+    </select>
 
-<br></br>
+
+</div>
+<div>
+ <h3>大学生向け投稿オプション</h3>
+
+    <p><label><input type="checkbox" name="review[tags][]" value="SNS映え"> SNS映え</label></p>
+    <p><label><input type="checkbox" name="review[tags][]" value="一人でも入りやすい"> 一人でも入りやすい</label></p>
+    <p><label><input type="checkbox" name="review[tags][]" value="大人数向け"> 大人数向け</label></p>
+    <p><label><input type="checkbox" name="review[tags][]" value="コスパが良い"> コスパが良い</label></p>
+    <p><label><input type="checkbox" name="review[tags][]" value="30分以内で食べられる"> 30分以内で食べられる</label></p>
+    <p><label><input type="checkbox" name="review[tags][]" value="量が多い"> 量が多い</label></p>
+</div>
+</div>
    <p>
     <input type="submit" value="登録" 
            style="background-color: #007bff; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;" />
   </p>
 </form>
-</div>
+
 
 </body>
 </html>
