@@ -32,7 +32,8 @@ Rails.application.routes.draw do
   resources :reviews do
     resource :bookmark, only: [:create, :destroy]
   end
-
+  
+  get "bookmarks", to: "bookmarks#index"
 
   # トップページ
  # root "reviews#index"

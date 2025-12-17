@@ -1,0 +1,30 @@
+<h1>⭐️ ブックマークしたお店一覧</h1>
+
+<% if @bookmarked_reviews.empty? %>
+  <p>まだブックマークしたお店はありません。</p>
+  <%= link_to "お店を探しに行く", reviews_path %>
+<% else %>
+
+  <% @bookmarked_reviews.each do |review| %>
+    <div style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
+      
+      <h3><%= review.storename %> <small>(★<%= review.star%>)</small></h3>
+      
+      <p>
+        <span style="background: #eee; padding: 2px;">📍 <%= review.location %></span>
+        <span style="background: #eee; padding: 2px;">🏷 <%= review.category %></span>
+      </p>
+
+      <p><%= review.comment %></p>
+
+      <% if review.image.attached? %>
+        <%= image_tag review.image, size: "150x150" %>
+      <% end %>
+
+      <p>
+        <%= button_to "📖ブックマーク解除", review_bookmark_path(review), method: :delete %>
+      </p>
+    </div>
+  <% end %>
+
+<% end %>
