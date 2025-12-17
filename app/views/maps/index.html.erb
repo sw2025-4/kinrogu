@@ -32,6 +32,7 @@
 <button onclick="moveCenter1()"class="button">北九州市</button>
 <button onclick="moveCenter2()"class="button">福岡市</button>
 <button onclick="moveCenter3()"class="button">飯塚市</button>
+<button onclick="myposition()"class="button">現在地</button>
 </div>
 <div id="map">
 
@@ -41,6 +42,7 @@
 let map;
 let geocoder;
 let marker;
+let markers;
 const reviews = <%= raw @reviews.to_json(only: [:id, :storename, :latitude, :longitude, :image],methods: [:tags, :image_url]) %>;
 let infoWindow
 
@@ -125,7 +127,37 @@ function moveCenter2() {
 function moveCenter3(){
   map.setCenter({lat: 33.64499937514977, lng: 130.7135560801933});
 }
+function myposition() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const userLatLng = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
+      const userMarker = new google.maps.Marker({
+        position: userLatLng,
+        map: map,
+      });
+
+      map.setCenter(userLatLng);
+
+      const circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: userLatLng,
+        radius: 10000
+      });
+
+    }); 
+  } else {
+    alert("位置情報が取得できません");
+  }
+}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDm8-NU6BEgUIUIXcfxKyjYHyjOb89c4gA&callback=initMap" async defer></script>
 
