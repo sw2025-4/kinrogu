@@ -45,7 +45,10 @@ let marker;
 let markers;
 const reviews = <%= raw @reviews.to_json(only: [:id, :storename, :latitude, :longitude, :image],methods: [:tags, :image_url]) %>;
 let infoWindow
-
+let walkStep = 0;                // 何回押したか
+const MAX_STEP = 6;             // 最大60分
+const METERS_PER_STEP = 800;    // 徒歩10分 = 800m
+let circle = null;
 
 
 
@@ -57,10 +60,7 @@ function initMap() {
     center: {lat: 33.64499937514977, lng: 130.7135560801933 },
     zoom: 12,
     styles: [
-　　　 {
-        featureType: "poi",
-        stylers: [{ visibility: "off" }]
-      },
+　　
       {
         featureType: "poi.business",
         stylers: [{ visibility: "off" }]
@@ -84,7 +84,7 @@ function initMap() {
       label: {
     　text: r.storename,
     　color: "black",
-    　fontSize: "10px",
+    　fontSize: "15px",
     　fontWeight: "bold"
   　　　}});
       const tagsHTML = r.tags && r.tags.length > 0
@@ -115,6 +115,9 @@ function initMap() {
   
   
   
+  
+}
+function circlezoom(x){
   
 }
 
@@ -150,7 +153,7 @@ function myposition() {
         fillOpacity: 0.35,
         map: map,
         center: userLatLng,
-        radius: 10000
+        radius: 1000
       });
 
     }); 
