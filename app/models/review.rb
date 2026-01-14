@@ -5,7 +5,7 @@ class Review < ApplicationRecord
     geocoded_by :location
     after_validation :geocode, if: ->(obj){ obj.location.present? && obj.location_changed? }
     def image_url
-    return nil unless image.attached?
-    Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true)
-  end
+      return nil unless image.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true)
+    end
 end
