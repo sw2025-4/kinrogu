@@ -4,7 +4,10 @@
   <nav>
     <%= link_to "ホーム" ,'/reviews/index'%> |
     <%= link_to "マップ",'/maps/index'%> |
-    <%= link_to "新規登録", '/reviews/new' %>
+    <%# ▼ ログインしている時だけ表示する ▼ %>
+    <% if current_user %>
+    <%= link_to "レビューを投稿する", '/reviews/new' %>
+    <% end %>
   </nav>
 </header>
 

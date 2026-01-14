@@ -1,20 +1,21 @@
+<% if current_user %>
 <%= link_to '新規追加', new_review_path, style: "background-color: #007bff; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;" %></p>
+<% end %>
 <% @reviews.each do |r| %>
   <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
-    　
+    
     　<% if r.image.attached? %>
       　<div style="margin-bottom: 10px;">
         　<%= image_tag r.image, style: "max-width: 200px; height: auto; border-radius: 4px;" %>
       　</div>
     　<% end %>
-      評価:
+
       <% r.star.to_i.times do %>
         ★
       <% end %><br>
       お店名: <%= r.storename %><br>
       コメント: <%= r.comment %><br>
-      ジャンル: <%= r.category %><br>
-      
+      ジャンル: <%= r.category %>
     </p>
   　<div style="margin-top: 10px;">
       <% if current_user %>
