@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post "top/login"
   get "top/logout"
   
+  
   resources :users
   #root "users#index"
 

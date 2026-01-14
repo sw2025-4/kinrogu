@@ -32,6 +32,7 @@
 <button onclick="moveCenter1()"class="button">北九州市</button>
 <button onclick="moveCenter2()"class="button">福岡市</button>
 <button onclick="moveCenter3()"class="button">飯塚市</button>
+<button onclick="myposition()"class="button">現在地</button>
 </div>
 <div id="map">
 
@@ -41,13 +42,16 @@
 let map;
 let geocoder;
 let marker;
-const jusyo =" 福岡県北九州市小倉南区富士見一丁目9番1号 "
+let markers;
+const reviews = <%= raw @reviews.to_json(only: [:id, :storename, :latitude, :longitude, :image],methods: [:tags, :image_url]) %>;
+let infoWindow
 
 
 
 
 function initMap() {
-  geocoder = new google.maps.Geocoder();
+  
+  
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 33.64499937514977, lng: 130.7135560801933 },
@@ -68,27 +72,46 @@ function initMap() {
     ]
   });
   
-    geocoder.geocode({ address: jusyo }, (results, status) => {
-    if (status === "OK" && results[0]) {
-      const location = results[0].geometry.location;
-      marker = new google.maps.Marker({
-        position: location,
-        map: map,
-        title: jusyo
-      });
-      map.setCenter(location);
-      console.log("緯度:", location.lat(), "経度:", location.lng());
-    } else {
-      console.error("ジオコーディングに失敗しました:", status);
-    }
-  });
+    reviews.forEach(r => {
+    const position = { lat: r.latitude, lng: r.longitude };
+    const marker = new google.maps.Marker({
+      position: position,
+      map: map,
+        icon: {
+      url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+      labelOrigin: new google.maps.Point(0, 35) // ← 文字を下に
+    　},
+      label: {
+    　text: r.storename,
+    　color: "black",
+    　fontSize: "10px",
+    　fontWeight: "bold"
+  　　　}});
+      const tagsHTML = r.tags && r.tags.length > 0
+    ? '<p> ' +  r.tags.join('<br>')  + '</p> '
+    : 'なし';
+    const imageHTML = r.image_url
+  ? `<img src="${r.image_url}" style="max-width:200px; height:auto; border-radius:8px; margin-bottom:5px;">`
+  : '';
+    const infoWindow = new google.maps.InfoWindow({
+  content: `
+     <div style="max-width:220px;">
+      <h3>${r.storename}</h3>
+      ${imageHTML}
+      <h4>おすすめポイント</h4>
+      ${tagsHTML}
+    </div>
+  `
+});
 
-
-  marker = new google.maps.Marker({
-    position: {lat: 33.64499937514977, lng: 130.7135560801933},
-    map: map
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
   });
   
+      
+  });
+
+
   
   
   
@@ -104,8 +127,37 @@ function moveCenter2() {
 function moveCenter3(){
   map.setCenter({lat: 33.64499937514977, lng: 130.7135560801933});
 }
+function myposition() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const userLatLng = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
 
+      const userMarker = new google.maps.Marker({
+        position: userLatLng,
+        map: map,
+      });
 
+      map.setCenter(userLatLng);
+
+      const circle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: userLatLng,
+        radius: 10000
+      });
+
+    }); 
+  } else {
+    alert("位置情報が取得できません");
+  }
+}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDm8-NU6BEgUIUIXcfxKyjYHyjOb89c4gA&callback=initMap" async defer></script>
 
