@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   get "reviews/index"
   
-  resources :users, only: [:index, :new, :create, :destroy]
+  resources :users, only: [:index, :new, :create, :destroy, :show]
 
   # ログイン・ログアウト
   get 'top/main', to: 'top#main'
@@ -33,7 +33,8 @@ Rails.application.routes.draw do
   resources :reviews do
     resource :bookmark, only: [:create, :destroy]
   end
-
+  
+  get "bookmarks", to: "bookmarks#index"
 
   # トップページ
  # root "reviews#index"

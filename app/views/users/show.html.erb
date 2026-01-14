@@ -1,0 +1,37 @@
+<h2><%= @user.uid %> さんのプロフィール</h2>
+
+<div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+  <p><strong>学部・学科:</strong> <%= @user.faculty.presence || "未設定" %></p>
+  <p><strong>学年:</strong> <%= @user.grade.presence || "未設定" %></p>
+</div>
+
+<h3>📝 このユーザーの投稿 (<%= @reviews.count %>件)</h3>
+<% if @reviews.any? %>
+  <ul>
+    <% @reviews.each do |review| %>
+      <li>
+        <strong><%= review.storename %></strong> (★<%= review.star %>)<br>
+        <%= review.comment %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>投稿はまだありません。</p>
+<% end %>
+
+<hr>
+
+<h3>⭐️ ブックマークしているお店</h3>
+<% if @bookmarked_reviews.any? %>
+  <ul>
+    <% @bookmarked_reviews.each do |review| %>
+      <li>
+        <%= link_to review.storename, reviews_path %> (★<%= review.star %>) - <%= review.location %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>ブックマークはありません。</p>
+<% end %>
+
+<p><%= link_to "戻る", :back %></p>

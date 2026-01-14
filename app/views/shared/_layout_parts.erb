@@ -12,9 +12,16 @@
 <aside id="sidebar">
   <h3>メニュー</h3>
   <ul>
-    <li><%= link_to "トップページ"%></li>
+    <li><%= link_to "トップページ", top_main_path%></li>
+    <%# ▼ ログインしている時だけ表示する ▼ %>
+    <% if current_user %>
+      <li><%= link_to "マイページ", user_path(current_user) %></li>
+      <li><%= link_to "ブックマーク一覧", bookmarks_path %></li>
+    <% else %>
+    <%# ▼ ログインしていない時だけ表示する（必要であれば） ▼ %>
+      <li><%= link_to "新規登録", new_user_path %></li>
+    <% end %>
     <li><%= link_to "マップ",'/maps/index' %></li>
-    <li><%= link_to "新規登録" %></li>
   </ul>
 </aside>
 

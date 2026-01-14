@@ -6,20 +6,43 @@
 %= f.submit '登録' %>
 % end %>-->
 
-<h1>ログイン</h1>
+<% if current_user %>
+  <%# ▼ ログインしている時の表示 ▼ %>
+  <h1>メインメニュー</h1>
+  <p>ようこそ、<strong><%= current_user.uid %></strong> さん！</p>
 
-<%= form_with url: top_login_path, local: true do |f| %>
   <p>
-    <%= f.label :uid, "ユーザーID (UID)" %><br>
-    <%= f.text_field :uid %>
+    <%= link_to "ログアウトする", top_logout_path, style: "color: red;" %>
   </p>
+
+  <hr>
   <p>
-    <%= f.label :pass, "パスワード" %><br>
-    <%= f.password_field :pass %>
+    <%= link_to "レビュー一覧を見る", reviews_path %><br>
+    <%= link_to "ブックマーク一覧を見る", bookmarks_path %>
   </p>
-  <p>
-    <%= f.submit "ログイン" %>
-  </p>
+
+<% else %>
+  <%# ▼ ログインしていない時の表示（元のコード） ▼ %>
+  <h1>ログイン</h1>
+
+  <%# エラーメッセージがあれば表示 %>
+  <% if flash[:alert] %>
+    <p style="color: red;"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with url: top_login_path, local: true do |f| %>
+    <p>
+      <%= f.label :uid, "ユーザーID (UID)" %><br>
+      <%= f.text_field :uid %>
+    </p>
+    <p>
+      <%= f.label :pass, "パスワード" %><br>
+      <%= f.password_field :pass %>
+    </p>
+    <p>
+      <%= f.submit "ログイン" %>
+    </p>
+  <% end %>
+
+  <p>アカウントをお持ちでない方は <%= link_to "新規登録", new_user_path %> へ</p>
 <% end %>
-
-<p>アカウントをお持ちでない方は <%= link_to "新規登録", new_user_path %> へ</p>
