@@ -1,21 +1,56 @@
+<style>
+.container {
+  columns: 3;               /* 3段組 */
+  column-gap: 20px;        /* 段の間隔 */
+  column-rule: 1px solid #ddd;
+}
+
+.review-box {
+  break-inside: avoid;     /* カラム途中で分断されない */
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff;
+}
+</style>
+
+
 <% if current_user %>
 <%= link_to '新規追加', new_review_path, style: "background-color: #007bff; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;" %></p>
 <% end %>
+<div class="container">
 <% @reviews.each do |r| %>
-  <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
+  <div class="review-box">
+ 
     
     　<% if r.image.attached? %>
       　<div style="margin-bottom: 10px;">
         　<%= image_tag r.image, style: "max-width: 200px; height: auto; border-radius: 4px;" %>
       　</div>
     　<% end %>
-
+　　　 <div class="review-content">
       <% r.star.to_i.times do %>
         ★
       <% end %><br>
       お店名: <%= r.storename %><br>
       コメント: <%= r.comment %><br>
-      ジャンル: <%= r.category %>
+      ジャンル: <%= r.category %><br>
+      住所: <%=r.location %><br>
+      <br>
+      おすすめポイント
+   　　<% if r.tags.present? %>
+  　　　　<% r.tags.each do |t| %>
+  　　<br>
+    ・<%= t %>
+  　　<% end %>
+  　　<% else %>
+  　　<br>
+  　おすすめポイントはありません
+　　　<% end %>
+　　　
+　　　
+       </div>
     </p>
   　<div style="margin-top: 10px;">
       <% if current_user %>
@@ -29,6 +64,8 @@
           
         <% end %>
       <% end %>
+      </div>
     </div>
-  </div>
+  
 <% end %>
+</div>

@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Map</title>
+
+  <!-- CSRF -->
+  <meta name="csrf-token" content="<%= form_authenticity_token %>">
+
+
 <style>
 .button {
       /*コレ*/border-radius: 100px;
@@ -22,7 +32,7 @@
   }
 </style>
 
-
+</head>
 
 
 
@@ -34,6 +44,7 @@
 <button onclick="moveCenter3()"class="button">飯塚市</button>
 <button onclick="myposition()"class="button">現在地</button>
 </div>
+<p> 現在地取得で徒歩10分以内で行けるところ表示</p>
 <div id="map">
 
 
@@ -43,15 +54,24 @@ let map;
 let geocoder;
 let marker;
 let markers;
-const reviews = <%= raw @reviews.to_json(only: [:id, :storename, :latitude, :longitude, :image],methods: [:tags, :image_url]) %>;
+
 let infoWindow
-let walkStep = 0;                // 何回押したか
-const MAX_STEP = 6;             // 最大60分
-const METERS_PER_STEP = 800;    // 徒歩10分 = 800m
-let circle = null;
 
 
 
+const reviews = <%= raw(
+  @reviews.map do |r|
+    {
+      id: r.id,
+      storename: r.storename,
+      latitude: r.latitude,
+      longitude: r.longitude,
+      tags: r.tags,
+      image_url: r.image.attached? ? url_for(r.image) : nil,
+      bookmarked: current_user ? current_user.bookmarks.exists?(review_id: r.id) : false
+    }
+  end.to_json
+) %>;
 function initMap() {
   
   
@@ -87,6 +107,14 @@ function initMap() {
     　fontSize: "15px",
     　fontWeight: "bold"
   　　　}});
+  　　　const bookmarkHTML = r.bookmarked
+  ? `<form action="/reviews/${r.id}/bookmark" method="post">
+       <input type="hidden" name="_method" value="delete">
+       <button>📖 ブックマーク解除</button>
+     </form>`
+  : `<form action="/reviews/${r.id}/bookmark" method="post">
+       <button>📘 ブックマーク登録</button>
+     </form>`;
       const tagsHTML = r.tags && r.tags.length > 0
     ? '<p> ' +  r.tags.join('<br>')  + '</p> '
     : 'なし';
@@ -100,6 +128,8 @@ function initMap() {
       ${imageHTML}
       <h4>おすすめポイント</h4>
       ${tagsHTML}
+　　　${bookmarkHTML}  
+      
     </div>
   `
 });
@@ -146,10 +176,10 @@ function myposition() {
       map.setCenter(userLatLng);
 
       const circle = new google.maps.Circle({
-        strokeColor: '#FF0000',
+        strokeColor: '#66CCFF',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: '#FF0000',
+        fillColor: '#66CCFF',
         fillOpacity: 0.35,
         map: map,
         center: userLatLng,
