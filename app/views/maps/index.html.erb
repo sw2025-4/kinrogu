@@ -44,7 +44,7 @@
 <button onclick="moveCenter3()"class="button">飯塚市</button>
 <button onclick="myposition()"class="button">現在地</button>
 </div>
-<p> 現在地取得で徒歩10分以内で行けるところ表示</p>
+<p> 現在地取得で徒歩10分以内で行けるところ表示<p>
 <div id="map">
 
 
@@ -68,7 +68,7 @@ const reviews = <%= raw(
       longitude: r.longitude,
       tags: r.tags,
       image_url: r.image.attached? ? url_for(r.image) : nil,
-      bookmarked: current_user ? current_user.bookmarks.exists?(review_id: r.id) : false
+      
     }
   end.to_json
 ) %>;
@@ -108,13 +108,7 @@ function initMap() {
     　fontWeight: "bold"
   　　　}});
   　　　const bookmarkHTML = r.bookmarked
-  ? `<form action="/reviews/${r.id}/bookmark" method="post">
-       <input type="hidden" name="_method" value="delete">
-       <button>📖 ブックマーク解除</button>
-     </form>`
-  : `<form action="/reviews/${r.id}/bookmark" method="post">
-       <button>📘 ブックマーク登録</button>
-     </form>`;
+
       const tagsHTML = r.tags && r.tags.length > 0
     ? '<p> ' +  r.tags.join('<br>')  + '</p> '
     : 'なし';
@@ -128,7 +122,7 @@ function initMap() {
       ${imageHTML}
       <h4>おすすめポイント</h4>
       ${tagsHTML}
-　　　${bookmarkHTML}  
+　
       
     </div>
   `
