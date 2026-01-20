@@ -35,3 +35,7 @@ production:
     <<: *primary_production
     cable:
     <<: *primary_production
+    database: mysite_wqkq
+    username: mysite_wqkq_user
+    password: <%= ENV['MYSITE_DATABASE_PASSWORD'] %>
+    url: <%= ENV['DATABASE_URL'] %>
